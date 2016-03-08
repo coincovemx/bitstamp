@@ -1,15 +1,12 @@
 module Bitstamp
   class UserTransactions < Bitstamp::Collection
     def all(options = {})
-      # Default time delta to an hour
-      options[:timedelta] = "3600" unless options[:timedelta]
-
       Bitstamp::Helper.parse_objects! Bitstamp::Net::post("/user_transactions", options).body_str, self.model
     end
 
-    def find(order_id)
+    def find(trans_id)
       all = self.all
-      index = all.index {|order| order.id.to_i == order_id}
+      index = all.index {|trans| trans.id.to_i == trans_id}
 
       return all[index] if index
     end
@@ -17,7 +14,7 @@ module Bitstamp
     def create(options = {})
     end
 
-    def update(options={})
+    def update(options = {})
     end
   end
 
