@@ -16,6 +16,10 @@ require 'bitstamp/ticker'
 String.send(:include, ActiveSupport::Inflector)
 
 module Bitstamp
+  
+  # Connection timeouts
+  mattr_accessor :conn_timeout
+  
   # API Key
   mattr_accessor :key
 
