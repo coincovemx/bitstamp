@@ -12,19 +12,19 @@ module Bitstamp
     end
 
     def all(options = {})
-      Bitstamp::Helper.parse_objects! Bitstamp::Net::get(self.path).body_str, self.model
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.get(self.path).body, self.model
     end
 
     def create(options = {})
-      Bitstamp::Helper.parse_object! Bitstamp::Net::post(self.path, options).body_str, self.model
+      Bitstamp::Helper.parse_object! Bitstamp::Net.post(self.path, options).body, self.model
     end
 
     def find(id, options = {})
-      Bitstamp::Helper.parse_object! Bitstamp::Net::get("#{self.path}/#{id}").body_str, self.model
+      Bitstamp::Helper.parse_object! Bitstamp::Net.get("#{self.path}/#{id}").body, self.model
     end
 
     def update(id, options = {})
-      Bitstamp::Helper.parse_object! Bitstamp::Net::patch("#{self.path}/#{id}", options).body_str, self.model
+      Bitstamp::Helper.parse_object! Bitstamp::Net.patch("#{self.path}/#{id}", options).body, self.model
     end
   end
 end

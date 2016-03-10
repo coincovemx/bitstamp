@@ -1,53 +1,44 @@
 module Bitstamp
   module Net
+    HTTPI_ADAPTER = :net_http
+    
     def self.to_uri(path)
       return "https://www.bitstamp.net/api#{path}/"
     end
 
-    def self.curl(verb, path, options={})
-      verb = verb.upcase.to_sym
+    def self.req(verb, path, options={})
+      r = HTTPI::Request.new(self.to_uri(path))
 
-      c = Curl::Easy.new(self.to_uri(path))
+      if Bitstamp.conn_timeout
+        r.open_timeout = Bitstamp.conn_timeout
+        r.read_timeout = Bitstamp.conn_timeout
+      end
 
       if Bitstamp.configured?
         options[:key] = Bitstamp.key
         options[:nonce] = (Time.now.to_f*10000).to_i.to_s
         options[:signature] = HMAC::SHA256.hexdigest(Bitstamp.secret, options[:nonce]+Bitstamp.client_id.to_s+options[:key]).upcase
-        if Bitstamp.conn_timeout
-          c.connect_timeout = Bitstamp.conn_timeout
-          c.timeout = Bitstamp.conn_timeout
-        end
       end
 
-      c.post_body = options.to_query
+      r.body = options
 
-      c.http(verb)
-
-      return c
+      HTTPI.request(verb, r, HTTPI_ADAPTER)
     end
 
     def self.get(path, options={})
-      request = self.curl(:GET, path, options)
-
-      return request
+      self.req(:get, path, options)
     end
 
     def self.post(path, options={})
-      request = self.curl(:POST, path, options)
-
-      return request
+      self.req(:post, path, options)
     end
 
     def self.patch(path, options={})
-      request = self.curl(:PATCH, path, options)
-
-      return request
+      self.req(:patch, path, options)
     end
 
     def self.delete(path, options={})
-      request = self.curl(:DELETE, path, options)
-
-      return request
+      self.req(:delete, path, options)
     end
   end
 end

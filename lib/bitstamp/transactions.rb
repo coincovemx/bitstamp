@@ -1,7 +1,7 @@
 module Bitstamp
   class UserTransactions < Bitstamp::Collection
     def all(options = {})
-      Bitstamp::Helper.parse_objects! Bitstamp::Net::post("/user_transactions", options).body_str, self.model
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.post("/user_transactions", options).body, self.model
     end
 
     def find(trans_id)
@@ -27,7 +27,7 @@ module Bitstamp
     attr_accessor :date, :price, :tid, :amount
 
     def self.from_api
-      Bitstamp::Helper.parse_objects! Bitstamp::Net::get("/transactions").body_str, self
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.get("/transactions").body, self
     end
 
   end
