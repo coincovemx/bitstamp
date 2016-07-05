@@ -5,14 +5,13 @@
 # stub: bitstamp 0.4.0 ruby lib
 
 Gem::Specification.new do |s|
-  s.name = "bitstamp"
+  s.name = "bitstamp-2"
   s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeffrey Wilcke"]
   s.date = "2014-03-09"
   s.description = "Ruby API for use with bitstamp."
-  s.email = "stygeo@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
@@ -50,7 +49,7 @@ Gem::Specification.new do |s|
     "spec/support/vcr.rb",
     "spec/transactions_spec.rb"
   ]
-  s.homepage = "http://github.com/kojnapp/bitstamp"
+  s.homepage = "https://github.com/diogoribeiro/bitstamp"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.1.11"
@@ -89,4 +88,3 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
   end
 end
-
