@@ -6,7 +6,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bitstamp-2"
-  s.version = "0.4.3"
+  s.version = "0.4.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeffrey Wilcke"]
@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "https://github.com/diogoribeiro/bitstamp"
   s.licenses = ["MIT"]
+  s.rubygems_version = "2.1.11"
   s.require_paths = ["lib"]
   s.summary = "Bitstamp Ruby API"
 
