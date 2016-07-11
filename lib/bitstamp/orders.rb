@@ -25,13 +25,18 @@ module Bitstamp
 
       return all[index] if index
     end
+
+    def status(order_id, options = {})
+      options.merge!({id: order_id})
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.post('/order_status', options).body, self.model
+    end
   end
 
   class Order < Bitstamp::Model
     BUY  = 0
     SELL = 1
 
-    attr_accessor :type, :amount, :price, :id, :datetime
+    attr_accessor :type, :amount, :price, :id, :datetime, :status
     attr_accessor :error, :message
 
     def cancel!
