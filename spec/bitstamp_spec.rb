@@ -7,14 +7,25 @@ describe Bitstamp do
       it { -> { Bitstamp.sanity_check! }.should raise_error }
     end
     context 'properly configured' do
+      let(:nonce_parameter_generator) do
+        Proc.new do
+          "#{Time.now.to_i}#{(Time.now.nsec / 1_000_000)}".to_i
+        end
+      end
+
       before {
         Bitstamp.setup do |config|
           config.key = 'test'
           config.secret = 'test'
           config.client_id = 'test'
+          config.nonce_parameter_generator = nonce_parameter_generator
         end
       }
       it { -> { Bitstamp.sanity_check! }.should_not raise_error }
+
+      it 'generates the nonce parameter using the provided block' do
+        expect(Bitstamp.nonce_parameter).to eq nonce_parameter_generator.call
+      end
     end
   end
 

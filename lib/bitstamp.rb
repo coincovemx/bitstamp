@@ -16,10 +16,10 @@ require 'bitstamp/ticker'
 String.send(:include, ActiveSupport::Inflector)
 
 module Bitstamp
-  
+
   # Connection timeouts
   mattr_accessor :conn_timeout
-  
+
   # API Key
   mattr_accessor :key
 
@@ -29,9 +29,17 @@ module Bitstamp
   # Bitstamp client ID
   mattr_accessor :client_id
 
+  # Bitstamp nonce parameter generator
+  mattr_accessor :nonce_parameter_generator
+
   # Currency
   mattr_accessor :currency
   @@currency = :usd
+
+  def self.nonce_parameter
+    return self.nonce_parameter_generator.call if nonce_parameter_generator
+    (Time.now.to_f*10000).to_i.to_s
+  end
 
   def self.orders
     self.sanity_check!
