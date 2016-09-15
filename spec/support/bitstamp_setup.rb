@@ -15,5 +15,6 @@ def setup_bitstamp
     config.key = ENV['BITSTAMP_KEY']
     config.secret = ENV['BITSTAMP_SECRET']
     config.client_id = ENV['BITSTAMP_CLIENT_ID']
+    config.nonce_parameter_generator= lambda { "#{Time.now.to_i}#{(Time.now.nsec / 1_000_000)}".to_i }
   end
 end

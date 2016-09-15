@@ -1,7 +1,7 @@
 module Bitstamp
   module Net
     HTTPI_ADAPTER = :net_http
-    
+
     def self.to_uri(path)
       return "https://www.bitstamp.net/api#{path}/"
     end
@@ -16,13 +16,17 @@ module Bitstamp
 
       if Bitstamp.configured?
         options[:key] = Bitstamp.key
-        options[:nonce] = (Time.now.to_f*10000).to_i.to_s
+        options[:nonce] = self.nonce_parameter
         options[:signature] = HMAC::SHA256.hexdigest(Bitstamp.secret, options[:nonce]+Bitstamp.client_id.to_s+options[:key]).upcase
       end
 
       r.body = options
 
       HTTPI.request(verb, r, HTTPI_ADAPTER)
+    end
+
+    def self.nonce_parameter
+      Bitstamp.nonce_parameter
     end
 
     def self.get(path, options={})
