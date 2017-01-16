@@ -6,7 +6,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bitstamp-2"
-  s.version = "0.6.0"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeffrey Wilcke"]
@@ -67,6 +67,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.11.2"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_development_dependency(%q<pry>)
     else
       s.add_dependency(%q<activemodel>, [">= 3.1"])
       s.add_dependency(%q<activesupport>, [">= 3.1"])
