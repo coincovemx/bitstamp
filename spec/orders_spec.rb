@@ -21,11 +21,24 @@ describe Bitstamp::Orders do
       it { should be_kind_of Bitstamp::Order }
       its(:error) { should == "No permission found" }
     end
-    # context "bitcoins available", vcr: {cassette_name: 'bitstamp/orders/sell/success'} do
-    #   subject { Bitstamp.orders.sell(:amount => 1, :price => 1000) }
-    #   xit { should be_kind_of Bitstamp::Order }
-    #   its(:error) { should be_nil }
-    # end
+  end
+
+  describe 'market orders' do
+    before do
+      VCR.turn_off!
+      stub_request(:post, "https://www.bitstamp.net/api/v2/buy/market/btcusd/")
+        .to_return(status: 200, body:  fixture('successful_order_bitstamp.json'), headers: { 'Content-Type' => 'application/json' })
+    end
+
+    after do
+      VCR.turn_on!
+    end
+
+    it 'is successfully executed' do
+      executed_order = Bitstamp.orders.market_buy(:amount => 1, :price => 1000)
+      expect(executed_order).to be_kind_of Bitstamp::Order
+      expect(executed_order.price).to eq "1.25"
+    end
   end
 
   describe :buy, vcr: {cassette_name: 'bitstamp/orders/buy'} do

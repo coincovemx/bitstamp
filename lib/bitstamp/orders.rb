@@ -5,17 +5,43 @@ module Bitstamp
     end
 
     def create(options = {})
-      path = (options[:type] == Bitstamp::Order::SELL ? "/sell" : "/buy")
+      path = self.order_path(options)
       Bitstamp::Helper.parse_object! Bitstamp::Net.post(path, options).body, self.model
     end
 
     def sell(options = {})
-      options.merge!({type: Bitstamp::Order::SELL})
+      options.merge!({
+        type: Bitstamp::Order::SELL,
+        side_execution: Bitstamp::Order::LIMIT_ORDER
+      })
+
       self.create options
     end
 
     def buy(options = {})
-      options.merge!({type: Bitstamp::Order::BUY})
+      options.merge!({
+        type: Bitstamp::Order::BUY,
+        side_execution: Bitstamp::Order::LIMIT_ORDER
+      })
+
+      self.create options
+    end
+
+    def market_buy(options = {})
+      options.merge!({
+        type: Bitstamp::Order::BUY,
+        side_execution: Bitstamp::Order::MARKET_ORDER
+      })
+
+      self.create options
+    end
+
+    def market_sell(options = {})
+      options.merge!({
+        type: Bitstamp::Order::SELL,
+        side_execution: Bitstamp::Order::MARKET_ORDER
+      })
+
       self.create options
     end
 
@@ -30,9 +56,30 @@ module Bitstamp
       options.merge!({id: order_id})
       Bitstamp::Helper.parse_objects! Bitstamp::Net.post('/order_status', options).body, self.model
     end
+
+    def order_path(options = {})
+      currency_pair = options[:currency_pair].to_s.empty? ? "btcusd" : options[:currency_pair]
+      type = (options[:type] == Bitstamp::Order::SELL ? "sell" : "buy")
+      if options[:side_execution] == Bitstamp::Order::MARKET_ORDER
+        market_order_path(type, options)
+      else
+        limit_order_path(type, options)
+      end
+    end
+
+    def market_order_path(type, options = {})
+      currency_pair = options[:currency_pair].to_s.empty? ? "btcusd" : options[:currency_pair]
+      "/v2/#{type}/market/#{currency_pair}"
+    end
+
+    def limit_order_path(type, options = {})
+      "/#{type}"
+    end
   end
 
   class Order < Bitstamp::Model
+    MARKET_ORDER = :market
+    LIMIT_ORDER = :limit_order
     BUY  = 0
     SELL = 1
 
