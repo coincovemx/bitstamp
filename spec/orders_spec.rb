@@ -26,8 +26,6 @@ describe Bitstamp::Orders do
   describe 'market orders' do
     before do
       VCR.turn_off!
-      stub_request(:post, "https://www.bitstamp.net/api/v2/buy/market/btcusd/")
-        .to_return(status: 200, body:  fixture('successful_order_bitstamp.json'), headers: { 'Content-Type' => 'application/json' })
     end
 
     after do
@@ -35,9 +33,20 @@ describe Bitstamp::Orders do
     end
 
     it 'is successfully executed' do
+      stub_request(:post, "https://www.bitstamp.net/api/v2/buy/market/btcusd/")
+        .to_return(status: 200, body:  fixture('successful_order_bitstamp.json'), headers: { 'Content-Type' => 'application/json' })
       executed_order = Bitstamp.orders.market_buy(:amount => 1, :price => 1000)
       expect(executed_order).to be_kind_of Bitstamp::Order
       expect(executed_order.price).to eq "1.25"
+    end
+
+    it 'throws an error' do
+      stub_request(:post, "https://www.bitstamp.net/api/v2/buy/market/btcusd/")
+        .to_return(status: 200, body:  fixture('market_order_error.json'), headers: { 'Content-Type' => 'application/json' })
+      executed_order = Bitstamp.orders.market_buy(:amount => 1, :price => 1000)
+      expect(executed_order.price).to be_nil
+      expect(executed_order.reason).not_to be_nil
+      expect(executed_order.status).to eq 'error'
     end
   end
 
