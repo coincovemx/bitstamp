@@ -6,10 +6,10 @@
 
 Gem::Specification.new do |s|
   s.name = "bitstamp-2"
-  s.version = "0.7.0"
+  s.version = "0.7.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Jeffrey Wilcke"]
+  s.authors = ["Jeffrey Wilcke", "Codelitt Inc."]
   s.date = "2014-03-09"
   s.description = "Ruby API for use with bitstamp."
   s.extra_rdoc_files = [
