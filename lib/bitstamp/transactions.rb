@@ -26,11 +26,13 @@ module Bitstamp
   class Transactions < Bitstamp::Model
     attr_accessor :date, :price, :tid, :amount
 
-    def self.from_api
-      Bitstamp::Helper.parse_objects! Bitstamp::Net.get("/transactions").body, self
+    def self.from_api(currency_pair = nil)
+      new.from_api(currency_pair)
     end
 
+    def from_api(currency_pair = nil)
+      path = [base_path, 'transactions', currency_pair]
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.get(path).body, self.class
+    end
   end
-
-
 end

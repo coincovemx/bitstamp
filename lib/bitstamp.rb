@@ -53,8 +53,8 @@ module Bitstamp
     @@transactions ||= Bitstamp::UserTransactions.new
   end
 
-  def self.transactions
-    return Bitstamp::Transactions.from_api
+  def self.transactions(currency_pair = nil)
+    return Bitstamp::Transactions.from_api(currency_pair)
   end
 
   def self.balance
@@ -87,8 +87,8 @@ module Bitstamp
     return JSON.parse Bitstamp::Net.post("/unconfirmed_btc").body
   end
 
-  def self.ticker
-    return Bitstamp::Ticker.from_api
+  def self.ticker(currency_pair = nil)
+    return Bitstamp::Ticker.from_api(currency_pair)
   end
 
   def self.order_book
