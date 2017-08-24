@@ -2,7 +2,7 @@ module Bitstamp
   class Collection
     attr_accessor :access_token, :module, :name, :model, :path
 
-    def initialize(api_prefix="/api")
+    def initialize(api_prefix='/api')
       self.access_token = Bitstamp.key
 
       self.module = self.class.to_s.singularize.underscore
@@ -12,19 +12,19 @@ module Bitstamp
     end
 
     def all(options = {})
-      Bitstamp::Helper.parse_objects! Bitstamp::Net.get(self.path).body, self.model
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.get(path).body, model
     end
 
     def create(options = {})
-      Bitstamp::Helper.parse_object! Bitstamp::Net.post(self.path, options).body, self.model
+      Bitstamp::Helper.parse_object! Bitstamp::Net.post(path, options).body, model
     end
 
     def find(id, options = {})
-      Bitstamp::Helper.parse_object! Bitstamp::Net.get("#{self.path}/#{id}").body, self.model
+      Bitstamp::Helper.parse_object! Bitstamp::Net.get("#{path}/#{id}").body, model
     end
 
     def update(id, options = {})
-      Bitstamp::Helper.parse_object! Bitstamp::Net.patch("#{self.path}/#{id}", options).body, self.model
+      Bitstamp::Helper.parse_object! Bitstamp::Net.patch("#{path}/#{id}", options).body, model
     end
   end
 end

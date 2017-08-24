@@ -19,7 +19,7 @@ module Bitstamp
       attributes.each do |name, value|
         begin
           send("#{name}=", value)
-        rescue NoMethodError => e
+        rescue NoMethodError
           puts "Unable to assign #{name}. No such method."
         end
       end

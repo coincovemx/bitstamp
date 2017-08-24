@@ -68,7 +68,7 @@ module Bitstamp
     end
 
     def market_order_path(type, options = {})
-      currency_pair = options[:currency_pair].to_s.empty? ? "btcusd" : options[:currency_pair]
+      currency_pair = options[:currency_pair].to_s.empty? ? 'btcusd' : options[:currency_pair]
       "/v2/#{type}/market/#{currency_pair}"
     end
 
