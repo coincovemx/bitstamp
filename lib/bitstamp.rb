@@ -29,6 +29,9 @@ module Bitstamp
   # Bitstamp client ID
   mattr_accessor :client_id
 
+  # Bitstamp API Version
+  mattr_accessor :api_version
+
   # Bitstamp nonce parameter generator
   mattr_accessor :nonce_parameter_generator
 
@@ -43,14 +46,12 @@ module Bitstamp
 
   def self.orders
     self.sanity_check!
-
-    @@orders ||= Bitstamp::Orders.new
+    @@orders ||= Bitstamp::Orders.new(!api_version.nil? && "api/#{api_version}")
   end
 
   def self.user_transactions
     self.sanity_check!
-
-    @@transactions ||= Bitstamp::UserTransactions.new
+    @@transactions ||= Bitstamp::UserTransactions.new(!api_version.nil? && "api/#{api_version}")
   end
 
   def self.transactions(currency_pair = nil)

@@ -1,7 +1,8 @@
 module Bitstamp
   class UserTransactions < Bitstamp::Collection
     def all(options = {})
-      Bitstamp::Helper.parse_objects! Bitstamp::Net.post("/user_transactions", options).body, self.model
+      path = [base_path, 'user_transactions', options[:currency_pair]]
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.post(path, options).body, self.model
     end
 
     def find(trans_id)

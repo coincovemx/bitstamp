@@ -1,14 +1,15 @@
 module Bitstamp
   class Collection
-    attr_accessor :access_token, :module, :name, :model, :path
+    attr_accessor :access_token, :module, :name, :model, :path, :base_path
 
     def initialize(api_prefix='/api')
       self.access_token = Bitstamp.key
 
-      self.module = self.class.to_s.singularize.underscore
-      self.name   = self.module.split('/').last
-      self.model  = self.module.camelize.constantize
-      self.path   = "#{api_prefix}/#{self.name.pluralize}"
+      self.module    = self.class.to_s.singularize.underscore
+      self.name      = self.module.split('/').last
+      self.model     = self.module.camelize.constantize
+      self.base_path = api_prefix || ''
+      self.path      = "#{base_path}/#{name.pluralize}"
     end
 
     def all(options = {})

@@ -5,7 +5,7 @@ module Bitstamp
     def self.to_uri(path)
       path = "/#{path}" if path[0] != '/'
       path = "/api/#{path}" unless path.include?('api/')
-      'https://' + "www.bitstamp.net#{path}".gsub('//', '/') + '/'
+      'https://' + ("www.bitstamp.net#{path}" + '/').gsub('//', '/')
     end
 
     def self.req(verb, path, options={})

@@ -1,6 +1,7 @@
 module Bitstamp
   class Model
     attr_accessor :error, :message
+    attr_accessor :base_path
 
     if ActiveModel::VERSION::MAJOR <= 3
       include ActiveModel::Validations
@@ -8,10 +9,16 @@ module Bitstamp
       extend ActiveModel::Naming
 
       def initialize(attributes = {})
+        self.base_path = attributes.delete(:base_path) || 'api'
         self.attributes = attributes
       end
     else
       include ActiveModel::Model
+
+      def initialize(attributes = {})
+        self.base_path = attributes.delete(:base_path) || 'api'
+        super(attributes)
+      end
     end
 
     # Set the attributes based on the given hash
