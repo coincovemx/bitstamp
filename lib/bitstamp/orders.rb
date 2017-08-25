@@ -85,7 +85,7 @@ module Bitstamp
     SELL = 1
 
     attr_accessor :type, :amount, :price, :id, :datetime, :status
-    attr_accessor :error, :message, :reason
+    attr_accessor :error, :message, :reason, :code
 
     def cancel!
       Bitstamp::Net.post("#{base_path}/cancel_order", {id: self.id}).body
