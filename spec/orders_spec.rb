@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Bitstamp::Orders do
   before { setup_bitstamp }
+  before { Bitstamp.api_version = nil }
 
   describe :all, vcr: {cassette_name: 'bitstamp/orders/all'} do
     subject { Bitstamp.orders.all }
@@ -58,5 +59,27 @@ describe Bitstamp::Orders do
     its(:type) { should == 0 }
     its(:datetime) { should == "2013-09-26 23:26:56.849475" }
     its(:error) { should be_nil }
+
+    describe 'buy in v2' do
+      it 'is successfully created' do
+        Bitstamp.api_version = 'v2'
+        stub_request(:post, "https://www.bitstamp.net/api/v2/buy/btcusd/")
+          .to_return(status: 200, body:  fixture('successful_order_bitstamp.json'), headers: { 'Content-Type' => 'application/json' })
+        order = Bitstamp.orders.buy(amount: 1, price: 1000)
+        expect(order).to be_kind_of Bitstamp::Order
+        expect(order.price).to eq "1.25"
+      end
+
+      describe 'for other ETH' do
+        it 'is successfully created' do
+          Bitstamp.api_version = 'v2'
+          stub_request(:post, "https://www.bitstamp.net/api/v2/buy/ethusd/")
+            .to_return(status: 200, body:  fixture('successful_order_bitstamp.json'), headers: { 'Content-Type' => 'application/json' })
+          order = Bitstamp.orders.buy(amount: 1, price: 1000, currency_pair: 'ethusd')
+          expect(order).to be_kind_of Bitstamp::Order
+          expect(order.price).to eq "1.25"
+        end
+      end
+    end
   end
 end

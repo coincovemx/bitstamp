@@ -59,7 +59,7 @@ module Bitstamp
     end
 
     def order_path(options = {})
-      options[:currency_pair] = 'btcusd' if options[:currency_pair].to_s.empty? && base_path.include?('v2')
+      options[:currency_pair] = 'btcusd' if options[:currency_pair].to_s.empty? && Bitstamp.api_version == 'v2'
       type = (options[:type] == Bitstamp::Order::SELL ? 'sell' : 'buy')
       if options[:side_execution] == Bitstamp::Order::MARKET_ORDER
         market_order_path(type, options)

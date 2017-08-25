@@ -39,6 +39,10 @@ module Bitstamp
   mattr_accessor :currency
   @@currency = :usd
 
+  def self.api_path
+    !api_version.nil? && "api/#{api_version}"
+  end
+
   def self.nonce_parameter
     return self.nonce_parameter_generator.call if nonce_parameter_generator
     (Time.now.to_f*10000).to_i.to_s
@@ -46,22 +50,22 @@ module Bitstamp
 
   def self.orders
     self.sanity_check!
-    @@orders ||= Bitstamp::Orders.new(!api_version.nil? && "api/#{api_version}")
+    Bitstamp::Orders.new(api_path)
   end
 
   def self.user_transactions
     self.sanity_check!
-    @@transactions ||= Bitstamp::UserTransactions.new(!api_version.nil? && "api/#{api_version}")
+    Bitstamp::UserTransactions.new(api_path)
   end
 
   def self.transactions(currency_pair = nil)
-    return Bitstamp::Transactions.from_api(currency_pair)
+    Bitstamp::Transactions.new(base_path: api_path).from_api(currency_pair)
   end
 
-  def self.balance
+  def self.balance(currency_pair = nil)
     self.sanity_check!
 
-    JSON.parse Bitstamp::Net.post('/balance').body
+    JSON.parse Bitstamp::Net.post([api_path, 'balance']).body
   end
 
   def self.withdraw_bitcoins(options = {})
@@ -89,7 +93,7 @@ module Bitstamp
   end
 
   def self.ticker(currency_pair = nil)
-    return Bitstamp::Ticker.from_api(currency_pair)
+    return Bitstamp::Ticker.new(base_path: api_path).from_api(currency_pair)
   end
 
   def self.order_book

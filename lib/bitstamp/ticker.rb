@@ -7,6 +7,7 @@ module Bitstamp
     end
 
     def from_api(currency_pair = nil)
+      currency_pair = 'btcusd' if Bitstamp.api_version == 'v2' && !currency_pair
       path = [base_path, 'ticker', currency_pair]
       Bitstamp::Helper.parse_object!(Bitstamp::Net.get(path).body, self.class)
     end

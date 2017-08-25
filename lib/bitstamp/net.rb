@@ -49,7 +49,7 @@ module Bitstamp
     end
 
     def self.build_path(array)
-      array.delete_if(&:nil?).join('/')
+      array.delete_if{ |x| !x || x.nil?}.join('/')
     end
   end
 end
