@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bitstamp-2 (0.7.1)
+    bitstamp (0.8.0)
       activemodel (>= 3.1)
       activesupport (>= 3.1)
       httpi (~> 2.4.1)
@@ -20,7 +20,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.5)
-    builder (3.2.2)
+    builder (3.2.3)
     coderay (1.1.1)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
@@ -28,7 +28,7 @@ GEM
     git (1.2.5)
     httpi (2.4.1)
       rack
-    i18n (0.7.0)
+    i18n (0.8.6)
     jeweler (1.8.4)
       bundler (~> 1.0)
       git (>= 1.2.5)
@@ -36,7 +36,7 @@ GEM
       rdoc
     json (1.8.3)
     method_source (0.8.2)
-    minitest (5.8.4)
+    minitest (5.10.3)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -56,8 +56,8 @@ GEM
     ruby-hmac (0.4.0)
     safe_yaml (0.9.7)
     slop (3.6.0)
-    thread_safe (0.3.5)
-    tzinfo (1.2.2)
+    thread_safe (0.3.6)
+    tzinfo (1.2.3)
       thread_safe (~> 0.1)
     vcr (2.6.0)
     webmock (1.13.0)
@@ -68,8 +68,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bitstamp-2!
-  bundler (~> 1.11.2)
+  bitstamp!
+  bundler (~> 1.11)
   jeweler (~> 1.8.4)
   pry
   rdoc (~> 3.12)
@@ -78,4 +78,4 @@ DEPENDENCIES
   webmock (= 1.13.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.4

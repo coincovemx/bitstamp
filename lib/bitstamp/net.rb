@@ -3,10 +3,13 @@ module Bitstamp
     HTTPI_ADAPTER = :net_http
 
     def self.to_uri(path)
-      return "https://www.bitstamp.net/api#{path}/"
+      path = "/#{path}" if path[0] != '/'
+      path = "/api/#{path}" unless path.include?('api/')
+      'https://' + ("www.bitstamp.net#{path}" + '/').gsub('//', '/')
     end
 
     def self.req(verb, path, options={})
+      path = build_path(path) if path.is_a?(Array)
       r = HTTPI::Request.new(self.to_uri(path))
 
       if Bitstamp.conn_timeout
@@ -43,6 +46,10 @@ module Bitstamp
 
     def self.delete(path, options={})
       self.req(:delete, path, options)
+    end
+
+    def self.build_path(array)
+      array.delete_if{ |x| !x || x.nil?}.join('/')
     end
   end
 end

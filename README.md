@@ -1,5 +1,7 @@
 # Bitstamp Ruby API
 
+[![Build Status][travis-image]][travis-url]
+
 Feel free to fork, modify & redistribute under the MIT license.
 
 ## Installation
@@ -93,4 +95,5 @@ my-new-feature`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-
+[travis-image]: https://travis-ci.org/coincovemx/bitstamp.svg?branch=master
+[travis-url]: https://travis-ci.org/coincovemx/bitstamp

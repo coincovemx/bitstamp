@@ -1,7 +1,8 @@
 module Bitstamp
   class Orders < Bitstamp::Collection
     def all(options = {})
-      Bitstamp::Helper.parse_objects! Bitstamp::Net.post('/open_orders').body, self.model
+      path = [base_path, 'open_orders']
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.post(path).body, self.model
     end
 
     def create(options = {})
@@ -54,12 +55,12 @@ module Bitstamp
 
     def status(order_id, options = {})
       options.merge!({id: order_id})
-      Bitstamp::Helper.parse_objects! Bitstamp::Net.post('/order_status', options).body, self.model
+      Bitstamp::Helper.parse_objects! Bitstamp::Net.post("#{base_path}/order_status", options).body, self.model
     end
 
     def order_path(options = {})
-      currency_pair = options[:currency_pair].to_s.empty? ? "btcusd" : options[:currency_pair]
-      type = (options[:type] == Bitstamp::Order::SELL ? "sell" : "buy")
+      options[:currency_pair] = 'btcusd' if options[:currency_pair].to_s.empty? && Bitstamp.api_version == 'v2'
+      type = (options[:type] == Bitstamp::Order::SELL ? 'sell' : 'buy')
       if options[:side_execution] == Bitstamp::Order::MARKET_ORDER
         market_order_path(type, options)
       else
@@ -68,12 +69,12 @@ module Bitstamp
     end
 
     def market_order_path(type, options = {})
-      currency_pair = options[:currency_pair].to_s.empty? ? "btcusd" : options[:currency_pair]
+      currency_pair = options[:currency_pair].to_s.empty? ? 'btcusd' : options[:currency_pair]
       "/v2/#{type}/market/#{currency_pair}"
     end
 
     def limit_order_path(type, options = {})
-      "/#{type}"
+      [base_path, type, options[:currency_pair]]
     end
   end
 
@@ -84,10 +85,10 @@ module Bitstamp
     SELL = 1
 
     attr_accessor :type, :amount, :price, :id, :datetime, :status
-    attr_accessor :error, :message, :reason
+    attr_accessor :error, :message, :reason, :code
 
     def cancel!
-      Bitstamp::Net.post('/cancel_order', {id: self.id}).body
+      Bitstamp::Net.post("#{base_path}/cancel_order", {id: self.id}).body
     end
   end
 end

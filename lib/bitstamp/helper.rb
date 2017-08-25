@@ -10,10 +10,10 @@ module Bitstamp
       end
     end
 
-    def self.parse_object!(object, klass)
+    def self.parse_object!(object, klass, base_path = 'api')
       object = JSON.parse(object) if object.is_a? String
 
-      klass.new(object)
+      klass.new(object.merge(base_path: base_path))
     end
   end
 end

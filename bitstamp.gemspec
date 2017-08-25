@@ -5,8 +5,8 @@
 # stub: bitstamp 0.4.0 ruby lib
 
 Gem::Specification.new do |s|
-  s.name = "bitstamp-2"
-  s.version = "0.7.1"
+  s.name = "bitstamp"
+  s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeffrey Wilcke", "Codelitt Inc."]
@@ -65,7 +65,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<ruby-hmac>, ["= 0.4.0"])
       s.add_development_dependency(%q<rspec>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.11.2"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.11"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_development_dependency(%q<pry>)
     else
@@ -75,7 +75,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<ruby-hmac>, ["= 0.4.0"])
       s.add_dependency(%q<rspec>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.11.2"])
+      s.add_dependency(%q<bundler>, ["~> 1.11"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     end
   else
@@ -85,7 +85,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<ruby-hmac>, ["= 0.4.0"])
     s.add_dependency(%q<rspec>, [">= 0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.11.2"])
+    s.add_dependency(%q<bundler>, ["~> 1.11"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
   end
 end
