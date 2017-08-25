@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bitstamp-2 (0.7.1)
+    bitstamp (0.7.1)
       activemodel (>= 3.1)
       activesupport (>= 3.1)
       httpi (~> 2.4.1)
@@ -68,8 +68,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bitstamp-2!
-  bundler (~> 1.11.2)
+  bitstamp!
+  bundler (~> 1.11)
   jeweler (~> 1.8.4)
   pry
   rdoc (~> 3.12)
@@ -78,4 +78,4 @@ DEPENDENCIES
   webmock (= 1.13.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.4

@@ -29,12 +29,19 @@ module Bitstamp
   # Bitstamp client ID
   mattr_accessor :client_id
 
+  # Bitstamp API Version
+  mattr_accessor :api_version
+
   # Bitstamp nonce parameter generator
   mattr_accessor :nonce_parameter_generator
 
   # Currency
   mattr_accessor :currency
   @@currency = :usd
+
+  def self.api_path
+    !api_version.nil? && "api/#{api_version}"
+  end
 
   def self.nonce_parameter
     return self.nonce_parameter_generator.call if nonce_parameter_generator
@@ -43,24 +50,22 @@ module Bitstamp
 
   def self.orders
     self.sanity_check!
-
-    @@orders ||= Bitstamp::Orders.new
+    Bitstamp::Orders.new(api_path)
   end
 
   def self.user_transactions
     self.sanity_check!
-
-    @@transactions ||= Bitstamp::UserTransactions.new
+    Bitstamp::UserTransactions.new(api_path)
   end
 
-  def self.transactions
-    return Bitstamp::Transactions.from_api
+  def self.transactions(currency_pair = nil)
+    Bitstamp::Transactions.new(base_path: api_path).from_api(currency_pair)
   end
 
-  def self.balance
+  def self.balance(currency_pair = nil)
     self.sanity_check!
 
-    JSON.parse Bitstamp::Net.post('/balance').body
+    JSON.parse Bitstamp::Net.post([api_path, 'balance']).body
   end
 
   def self.withdraw_bitcoins(options = {})
@@ -75,6 +80,7 @@ module Bitstamp
       return response_body
     end
   end
+
   def self.bitcoin_deposit_address
     # returns the deposit address
     self.sanity_check!
@@ -86,8 +92,8 @@ module Bitstamp
     return JSON.parse Bitstamp::Net.post("/unconfirmed_btc").body
   end
 
-  def self.ticker
-    return Bitstamp::Ticker.from_api
+  def self.ticker(currency_pair = nil)
+    return Bitstamp::Ticker.new(base_path: api_path).from_api(currency_pair)
   end
 
   def self.order_book

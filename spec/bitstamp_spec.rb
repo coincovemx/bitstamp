@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Bitstamp do
+  before { Bitstamp.api_version = nil }
 
   describe :sanity_check! do
     context 'not properly configured' do
@@ -43,6 +44,22 @@ describe Bitstamp do
     its(:volume) { should == "7766.46908740" }
     its(:low) { should == "123.00" }
     its(:ask) { should == "124.56" }
+
+    describe 'for api version v2', vcr: {cassette_name: 'bitstamp/v2/ticker'} do
+      before { Bitstamp.api_version = 'v2' }
+
+      subject { Bitstamp.ticker }
+      it { should be_kind_of Bitstamp::Ticker }
+      its(:high)      { should == '4445.09' }
+      its(:last)      { should == '4430.00' }
+      its(:timestamp) { should == '1503678718' }
+      its(:bid)       { should == '4427.00' }
+      its(:vwap)      { should == '4311.16' }
+      its(:volume)    { should == '9703.38924092' }
+      its(:low)       { should == '4185.67' }
+      its(:ask)       { should == '4430.00' }
+      its(:open)      { should == '4308.80' }
+    end
   end
 
   describe :balance, vcr: {cassette_name: 'bitstamp/balance'} do
