@@ -1,6 +1,6 @@
 require 'active_support/dependencies'
 require 'active_model'
-require 'httpi'
+require 'rest-client'
 require 'json'
 require 'hmac-sha2'
 
